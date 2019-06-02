@@ -5,6 +5,7 @@ package com.dev.anzalone.luca.facelandmarks.camera
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import com.dev.anzalone.luca.facelandmarks.utils.mapTo
 
@@ -17,6 +18,7 @@ import com.dev.anzalone.luca.facelandmarks.utils.mapTo
 class CameraOverlay(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val rect = RectF()
     private val r = Rect()
+    private var cursor: Pair<Float, Float> = Pair(0f, 0f)
     var face: Rect? = null
     private var landmarks: LongArray? = null
     lateinit var preview: CameraPreview
@@ -51,10 +53,16 @@ class CameraOverlay(context: Context, attrs: AttributeSet) : View(context, attrs
             r.set(it)
             r.mapTo(width, height, preview.displayRotation)
             rect.set(r)
-
             canvas.drawRect(rect, rPaint)
 
+
             landmarks?.let {
+                if (it.isNotEmpty()) {
+                    val (x, y) = adjustPoint(it[60], it[61])
+                    Log.d("TAG", x.toString())
+                    cursor = Pair(x, y)
+
+                }
                 var count = 0
                 for (i in it.indices step 2) {
                     var radius = 8f
@@ -62,6 +70,7 @@ class CameraOverlay(context: Context, attrs: AttributeSet) : View(context, attrs
 
                     if (count == 30) {
                         radius = 32f
+                        canvas.drawText(i.toString(), x, y, white)
                     }
                     canvas.drawCircle(x, y, radius, pPaint)
 
@@ -69,6 +78,7 @@ class CameraOverlay(context: Context, attrs: AttributeSet) : View(context, attrs
                     count++
                 }
             }
+            canvas.drawCircle(cursor.first, cursor.second, 60f, cPaint)
         }
 
         face = null
@@ -77,6 +87,7 @@ class CameraOverlay(context: Context, attrs: AttributeSet) : View(context, attrs
     companion object {
         private val rPaint = Paint()
         private val pPaint = Paint()
+        private val cPaint = Paint()
         private val white = Paint()
 
         init {
@@ -86,6 +97,10 @@ class CameraOverlay(context: Context, attrs: AttributeSet) : View(context, attrs
 
             pPaint.color = Color.YELLOW
             pPaint.style = Paint.Style.FILL
+
+            cPaint.color = Color.RED
+            cPaint.style = Paint.Style.STROKE
+            cPaint.strokeWidth = 25f
 
             white.color = Color.WHITE
             white.style = Paint.Style.STROKE
