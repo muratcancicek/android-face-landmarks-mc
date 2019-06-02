@@ -55,14 +55,18 @@ class CameraOverlay(context: Context, attrs: AttributeSet) : View(context, attrs
             canvas.drawRect(rect, rPaint)
 
             landmarks?.let {
-//                var count = 0
+                var count = 0
                 for (i in it.indices step 2) {
+                    var radius = 8f
                     val (x, y) = adjustPoint(it[i], it[i + 1])
 
-                    canvas.drawCircle(x, y, 8f, pPaint)
+                    if (count == 30) {
+                        radius = 24f
+                    }
+                    canvas.drawCircle(x, y, radius, pPaint)
 
-//                    canvas.drawText(count.toString(), x, y, white)
-//                    count++
+                 //   canvas.drawText(count.toString(), x, y, white)
+                    count++
                 }
             }
         }

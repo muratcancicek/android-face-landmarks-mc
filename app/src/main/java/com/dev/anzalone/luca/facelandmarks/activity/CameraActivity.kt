@@ -41,7 +41,7 @@ class CameraActivity : Activity(), Camera.PreviewCallback, Camera.FaceDetectionL
     private var currentFace: Rect? = null
     private lateinit var modelDir: File
     private lateinit var modelsJson: File
-    private var currentModelId = -1
+    private var currentModelId = 3
     private val lock = ReentrantLock()
     private val detectorActor = newDetectorActor()
     private var promise: Deferred<LongArray>? = null
@@ -100,7 +100,7 @@ class CameraActivity : Activity(), Camera.PreviewCallback, Camera.FaceDetectionL
 
                 val updates = ArrayList<Model>()
                 var newModels = 0
-
+            /*
                 UserDialog(this@CameraActivity,
                         title = "Check for new models?",
                         msg = "this will check if there are new models or updates",
@@ -144,6 +144,7 @@ class CameraActivity : Activity(), Camera.PreviewCallback, Camera.FaceDetectionL
                             }
                         }
                 ).show()
+            */
             }
         }
     }
