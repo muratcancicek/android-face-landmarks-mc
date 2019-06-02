@@ -61,7 +61,7 @@ class CameraOverlay(context: Context, attrs: AttributeSet) : View(context, attrs
                     val (x, y) = adjustPoint(it[i], it[i + 1])
 
                     if (count == 30) {
-                        radius = 24f
+                        radius = 32f
                     }
                     canvas.drawCircle(x, y, radius, pPaint)
 
