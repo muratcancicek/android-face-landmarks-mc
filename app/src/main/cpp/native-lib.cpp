@@ -136,14 +136,14 @@ JNI_METHOD(loadModel)(JNIEnv* env, jclass, jstring detectorPath) {
 
 void rotateMat(cv::Mat &mat, int rotation) {
     if (rotation == 90) { // portrait
-        LOGD("JNI: rotation 90");
+//        LOGD("JNI: rotation 90");
         cv::transpose(mat, mat);
         cv::flip(mat, mat, -1);
     } else if (rotation == 0) { // landscape-left
-        LOGD("JNI: rotation 0");
+//        LOGD("JNI: rotation 0");
         cv::flip(mat, mat, 1);
     } else if (rotation == 180) { // landscape-right
-        LOGD("JNI: rotation 180");
+//        LOGD("JNI: rotation 180");
         cv::flip(mat, mat, 0);
     }
 }
@@ -161,7 +161,7 @@ JNI_METHOD(setImageFormat)(JNIEnv* env, jclass, jint format) {
 extern "C"
 JNIEXPORT jlongArray JNICALL
 JNI_METHOD(detectLandmarks)(JNIEnv* env, jclass, jbyteArray yuvFrame, jint rotation, jint width, jint height, jint left, jint top, jint right, jint bottom) {
-    LOGD("JNI: detectLandmarks");
+//    LOGD("JNI: detectLandmarks");
 
     // copy content of frame into image
     jbyte *data = env->GetByteArrayElements(yuvFrame, 0);
@@ -179,6 +179,26 @@ JNI_METHOD(detectLandmarks)(JNIEnv* env, jclass, jbyteArray yuvFrame, jint rotat
     // adjust rotation according to phone orientation
     rotateMat(grayMat, rotation);
 
+ //   __android_log_print(ANDROID_LOG_VERBOSE, "D/native-lib",
+ //                       "left %d right %d width %d, height %d", left, right, width, grayMat.cols);
+
+    // keeping the face inside of the grayMat
+    if (left < 0) {
+        left = 0;
+        LOGD("Face out of left");
+    }
+    if (right > grayMat.cols) {
+        right = grayMat.cols-1;
+        LOGD("Face out of right");
+    }
+    if (top < 0) {
+        top = 0;
+        LOGD("Face out of top");
+    }
+    if (bottom > grayMat.rows) {
+        bottom = grayMat.rows-1;
+        LOGD("Face out of bottom");
+    }
     // crop face for enhancements
     cv::Rect faceROI(left, top, right - left, bottom - top);
     cv::Mat face = grayMat(faceROI);

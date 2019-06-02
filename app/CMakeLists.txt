@@ -12,7 +12,7 @@ set(CMAKE_VERBOSE_MAKEFILE on)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions -std=c++11")
 
 # Path to project: REPLACE WITH YOUR PATH!
-set(PROJECT_PATH E:/Luca/Progetti/Android/FaceLandmarks)
+set(PROJECT_PATH C:/Users/MSI2/Documents/Offline_Projects/android-face-landmarks-mc)
 
 # Configure import libs: MAKE SURE TO HAVE A 'cppLibs' DIRECTORY"
 set(LIB_DIR ${CMAKE_SOURCE_DIR}/src/main/cppLibs)
@@ -22,7 +22,7 @@ set(LIB_DIR ${CMAKE_SOURCE_DIR}/src/main/cppLibs)
 # -- OPENCV
 # ------------------------------------------------------------------
 # Path to OpenCV: REPLACE WITH YOUR PATH!
-set(OPENCV_PATH E:/Luca/Librerie/OpenCV/opencv-4.0.1-android-sdk)
+set(OPENCV_PATH C:/cStorage/Program_Files/OpenCV-android-sdk)
 
 # Make directories for Opencv
 file(MAKE_DIRECTORY ${LIB_DIR}/opencv)
