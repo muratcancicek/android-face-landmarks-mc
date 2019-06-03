@@ -58,27 +58,42 @@ class CameraOverlay(context: Context, attrs: AttributeSet) : View(context, attrs
 
             landmarks?.let {
                 if (it.isNotEmpty()) {
-                    val (x, y) = adjustPoint(it[60], it[61])
-                    Log.d("TAG", x.toString())
-                    cursor = Pair(x, y)
+                   // var (x, y) = adjustPoint(it[60], it[61])
+                  //  cursor = Pair(x, y)
 
+                    var x = it[60].toFloat(); var y = it[61].toFloat()
+                    var minX = it[98].toFloat(); var maxX = it[106].toFloat()
+
+                    var minY = (it[3] + it[31]).toFloat()/2
+                    var maxY = (it[9] + it[25]).toFloat()/2
+                    x -= minX; y -= minY
+                    maxX -= minX; minX = 0f
+                    maxY -= minY; minY = 0f
+
+                    x /= maxX; y /= maxY
+                    x *= width; y *= height; y += 900f
+                    canvas.drawCircle(x, y, 60f, cPaint)
+                    /*
+                    canvas.drawText((minX).toString(), 620f, 880f, white)
+                    canvas.drawText((x).toString(), 720f, 680f, white)
+                    canvas.drawText((maxX).toString(), 920f, 880f, white)
+                    */
                 }
                 var count = 0
                 for (i in it.indices step 2) {
                     var radius = 8f
-                    val (x, y) = adjustPoint(it[i], it[i + 1])
+                    val (xi, yi) = adjustPoint(it[i], it[i + 1])
 
-                    if (count == 30) {
-                        radius = 32f
-                        canvas.drawText(i.toString(), x, y, white)
+                    if (count == 50 || count == 30 || count == 52) {
+                        radius = 2f
+                        canvas.drawText(i.toString(), xi, yi, white)
                     }
-                    canvas.drawCircle(x, y, radius, pPaint)
+                    canvas.drawCircle(xi, yi, radius, pPaint)
 
-                 //   canvas.drawText(count.toString(), x, y, white)
+                 //   canvas.drawText(count.toString(), x, yi, white)
                     count++
                 }
             }
-            canvas.drawCircle(cursor.first, cursor.second, 60f, cPaint)
         }
 
         face = null
@@ -104,7 +119,7 @@ class CameraOverlay(context: Context, attrs: AttributeSet) : View(context, attrs
 
             white.color = Color.WHITE
             white.style = Paint.Style.STROKE
-            white.textSize = 30f
+            white.textSize = 70f
         }
     }
 }
