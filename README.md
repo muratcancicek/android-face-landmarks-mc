@@ -1,5 +1,7 @@
-# Android App for Facial Landmark Localization
-An Android Application capable of localizing a set of facial landmarks trough the frontal camera of the device with pretty-good detection performance.
+# Android App for Head-based Interaction
+An Android Application that implements a screen cursor which can be controlled by user head movements. 
+
+The initial repository is forked from an existing project capable of localizing a set of facial landmarks through the frontal camera of the device with pretty-good detection performance.
 
 ## Requires:
 * OpenCV 4
